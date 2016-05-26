@@ -1,0 +1,177 @@
+//
+//  HelpViewController.m
+//  parkassist
+//
+//  Created by     on 11/3/13.
+//  Copyright (c) 2013 RUHE. All rights reserved.
+//
+
+#import "HelpViewController.h"
+
+@implementation HelpViewController
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+	// Do any additional setup after loading the view.
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    self.navigationController.navigationBarHidden = NO;
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+    [super viewWillAppear:animated];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 5;
+}
+
+// Row display. Implementers should *always* try to reuse cells by setting each cell's reuseIdentifier and querying for available reusable cells with dequeueReusableCellWithIdentifier:
+// Cell gets various attributes set automatically based on table (separators) and data source (accessory views, editing controls)
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"test"];
+    switch (indexPath.row) {
+        case 0:
+            [cell.textLabel setText:@"About"];
+            break;
+        case 1:
+            [cell.textLabel setText:@"Original CCTV Tools app"];
+            break;
+        case 2:
+            [cell.textLabel setText:@"Website"];
+            break;
+        case 3:
+            [cell.textLabel setText:@"Help"];
+            break;
+        case 4:
+            [cell.textLabel setText:@"Suggestions"];
+            break;
+        default:
+            break;
+    }
+    
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    switch (indexPath.row) {
+        case 0:
+            if (IS_IPAD)
+                abtVw = [[AboutViewController alloc] initWithNibName:@"AboutViewController_ipad" bundle:nil];
+            else
+            {
+                if (IS_IPHONE_4)
+                    abtVw = [[AboutViewController alloc] initWithNibName:@"AboutViewController_480h" bundle:nil];
+                else
+                    abtVw = [[AboutViewController alloc] initWithNibName:@"AboutViewController" bundle:nil];
+            }
+            [self.navigationController pushViewController:abtVw animated:YES];
+            [abtVw release];
+            break;
+        case 1:
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/gb/app/cctv-tools/id399209911?mt=8"]];
+            break;
+        case 2:
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.ruhesystems.com"]];
+            break;
+        case 3:
+            if (IS_IPAD)
+                tutVw = [[TutorialViewController alloc] initWithNibName:@"TutorialViewController_ipad" bundle:nil];
+            else
+            {
+                if (IS_IPHONE_4)
+                    tutVw = [[TutorialViewController alloc] initWithNibName:@"TutorialViewController_480h" bundle:nil];
+                else
+                    tutVw = [[TutorialViewController alloc] initWithNibName:@"TutorialViewController" bundle:nil];
+            }
+            tutVw->m_bFromHelp = YES;
+            [self.navigationController pushViewController:tutVw animated:YES];
+            [tutVw release];
+            break;
+        case 4:
+            if (IS_IPAD)
+                suggestVw = [[SuggestionViewController alloc] initWithNibName:@"SuggestionViewController_ipad" bundle:nil];
+            else
+            {
+                if (IS_IPHONE_4)
+                    suggestVw = [[SuggestionViewController alloc] initWithNibName:@"SuggestionViewController_480h" bundle:nil];
+                else
+                    suggestVw = [[SuggestionViewController alloc] initWithNibName:@"SuggestionViewController" bundle:nil];
+            }
+            [self.navigationController pushViewController:suggestVw animated:YES];
+            [suggestVw release];
+            break;
+        default:
+            break;
+    }
+}
+
+-(void)SendEmail
+{
+    if ([MFMailComposeViewController canSendMail])
+    {
+        MFMailComposeViewController *mailer = [[MFMailComposeViewController alloc] init];
+        mailer.mailComposeDelegate = self;
+        [mailer setSubject:@"Park Assist Suggestions"];
+        [mailer setToRecipients:[NSArray arrayWithObjects:@"parkassistapp@trackometer.net", nil]];
+        [self presentViewController:mailer animated:YES completion:nil];
+        [mailer release];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failure"
+                                                        message:@"Your device doesn't support the composer sheet"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles: nil];
+        [alert show];
+        [alert release];
+    }
+}
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
+{
+	switch (result)
+	{
+		case MFMailComposeResultCancelled:
+			NSLog(@"Mail cancelled: you cancelled the operation and no email message was queued");
+			break;
+		case MFMailComposeResultSaved:
+			NSLog(@"Mail saved: you saved the email message in the Drafts folder");
+			break;
+		case MFMailComposeResultSent:
+			NSLog(@"Mail send: the email message is queued in the outbox. It is ready to send the next time the user connects to email");
+			break;
+		case MFMailComposeResultFailed:
+			NSLog(@"Mail failed: the email message was nog saved or queued, possibly due to an error");
+			break;
+		default:
+			NSLog(@"Mail not sent");
+			break;
+	}
+    
+	[self dismissViewControllerAnimated:NO completion:nil];
+}
+@end

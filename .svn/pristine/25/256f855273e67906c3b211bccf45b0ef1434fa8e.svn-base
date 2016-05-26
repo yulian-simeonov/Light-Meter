@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>10B06695-9771-45B4-8A78-BA5BB1D7988D</string>
+	<key>IDESourceControlProjectName</key>
+	<string>lightmeter</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>3AC94997-2FD1-4089-905E-4343DAFF7301</key>
+		<string>https://ruhe.svn.beanstalkapp.com/lightmeter</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Light-Meter/lightmeter.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>3AC94997-2FD1-4089-905E-4343DAFF7301</key>
+		<string>../../../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectRepositoryRootDictionary</key>
+	<dict>
+		<key>3AC94997-2FD1-4089-905E-4343DAFF7301</key>
+		<string>https://ruhe.svn.beanstalkapp.com/lightmeter</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://ruhe.svn.beanstalkapp.com/lightmeter/trunk/new/lightmeter/lightmeter/lightmeter.xcodeproj</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>3AC94997-2FD1-4089-905E-4343DAFF7301</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryBranchesRelativeLocationKey</key>
+			<string>branches</string>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.subversion</string>
+			<key>IDESourceControlRepositoryTagsRelativeLocationKey</key>
+			<string>tags</string>
+			<key>IDESourceControlRepositoryTrunkRelativeLocationKey</key>
+			<string>trunk</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>3AC94997-2FD1-4089-905E-4343DAFF7301</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Lightmeter</string>
+		</dict>
+	</array>
+</dict>
+</plist>

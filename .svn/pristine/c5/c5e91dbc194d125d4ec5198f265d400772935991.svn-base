@@ -1,0 +1,94 @@
+//
+//  HelpViewController.m
+//  parkassist
+//
+//  Created by     on 10/27/13.
+//  Copyright (c) 2013 RUHE. All rights reserved.
+//
+
+#import "TutorialViewController.h"
+#import "AppDelegate.h"
+#import "lightmeterViewController.h"
+
+@implementation TutorialViewController
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+        m_bFromHelp = false;
+    }
+    return self;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    [_scrollVw setContentSize:CGSizeMake(_scrollVw.frame.size.width * 2, 0)];
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"SetTutorial"] boolValue] && !m_bFromHelp)
+    {
+        [self ShowMainViewController:NO];
+    }
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = YES;
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    NSInteger pageIndex = round(scrollView.contentOffset.x / scrollView.bounds.size.width);
+    if (scrollView.contentOffset.x / scrollView.frame.size.width >= 1.3f)
+    {
+        if(!m_bFromHelp)
+            [self ShowMainViewController:YES];
+        else
+            [self Back];
+    }
+    else if (scrollView.contentOffset.x / scrollView.frame.size.width <= -0.2f)
+    {
+        [self Back];
+    }
+    if (_pageCtrl.currentPage != pageIndex)
+        _pageCtrl.currentPage = pageIndex;
+}
+
+-(void)ShowMainViewController:(BOOL)animation
+{
+    lightmeterViewController* mainVw = nil;
+
+    if (IS_IPAD)
+        mainVw = [[lightmeterViewController alloc] initWithNibName:@"lightmeterViewController_ipad" bundle:nil];
+    else
+    {
+        if (IS_IPHONE_4)
+            mainVw = [[lightmeterViewController alloc] initWithNibName:@"lightmeterViewController_480h" bundle:nil];
+        else
+            mainVw = [[lightmeterViewController alloc] initWithNibName:@"lightmeterViewController" bundle:nil];
+    }
+    [self.navigationController pushViewController:mainVw animated:animation];
+    [mainVw release];
+}
+
+-(void)Back
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+-(IBAction)OnClose:(id)sender
+{
+    if (m_bFromHelp)
+        [self Back];
+    else
+        [self ShowMainViewController:YES];
+}
+@end
